@@ -3,7 +3,7 @@
     <div class="banner">
       <div class="container">
         <h1 class="logo-font">TODO</h1>
-        <p>一个用于练手的demo</p>
+        <p>拉钩教育</p>
       </div>
     </div>
 
