@@ -15,7 +15,9 @@
 
       <hr />
 
-      <div class="article-actions"><article-meta :article="article" />></div>
+      <div class="article-actions">
+        <article-meta :article="article" />
+      </div>
 
       <div class="row">
         <artice-comments :article="article"/>

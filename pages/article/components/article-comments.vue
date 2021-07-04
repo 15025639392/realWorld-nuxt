@@ -3,14 +3,15 @@
     <form class="card comment-form">
       <div class="card-block">
         <textarea
+          v-model="body"
           class="form-control"
           placeholder="Write a comment..."
           rows="3"
         ></textarea>
       </div>
       <div class="card-footer">
-        <img :src="article.author.image" class="comment-author-img" />
-        <button class="btn btn-sm btn-primary">Post Comment</button>
+        <img :src="user.image" class="comment-author-img" />
+        <button type="button" class="btn btn-sm btn-primary" @click="commentArticle">Post Comment</button>
       </div>
     </form>
     <div class="card" v-for="comment in comments" :key="comment.id">
@@ -51,7 +52,8 @@
 </template>
 
 <script>
-import { getArticleComments } from "@/api/article";
+import { getArticleComments, commentArticle } from "@/api/article";
+import {mapState} from 'vuex'
 export default {
   name: "ArticeComments",
   props: {
@@ -64,13 +66,34 @@ export default {
   },
   data() {
       return {
+          body:'',
           comments: [],
       }
+  },
+  computed:{
+    ...mapState(['user'])
   },
   async mounted() {
     const { data } = await getArticleComments(this.article.slug);
     this.comments = data.comments;
   },
+  methods:{
+    async commentArticle(){
+      await commentArticle({
+        comment:{
+          body:this.body
+        }
+      },this.article.slug)
+      this.comments.push({
+        author:{
+          ...this.user
+        },
+        createdAt:new Date(),
+        body:this.body
+      })
+      this.body = ''
+    }
+  }
 };
 </script>
 

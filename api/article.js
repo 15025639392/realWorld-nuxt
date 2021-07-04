@@ -50,5 +50,26 @@ export function getArticleComments(slug){
     })
 }
 
+// 评论文章
+export function commentArticle(data,slug){
+    return request({
+        method:'POST',
+        url:`/api/articles/${slug}/comments`,
+        data
+    })
+}
+
+// 发布文章
+export function addArticle(data){
+    return request({
+        method:'POST',
+        url:`/api/articles`,
+        data
+    })
+}
+
+
+
+
 
 

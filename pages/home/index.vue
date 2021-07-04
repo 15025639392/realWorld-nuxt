@@ -22,11 +22,12 @@
                   :to="{
                     name: 'home',
                     query: {
+                      author:user.username,
                       tab: 'your_feed',
                     },
                   }"
                 >
-                  我的分享
+                  your_feed
                 </nuxt-link>
               </li>
               <li class="nav-item">
@@ -43,7 +44,7 @@
                     },
                   }"
                 >
-                  公共分享
+                  global_feed
                 </nuxt-link>
               </li>
               <li class="nav-item" v-if="tag">
@@ -185,11 +186,12 @@ export default {
   async asyncData({ query, store }) {
     const page = Number.parseInt(query.page) || 1;
     const limit = 10;
-    const { tag } = query;
+    const { tag, author } = query;
     const tab = query.tab||'global_feed'
     const loadArticles = store.state.user&& tab==='your_feed'?getFeedArticles:getArticles
     const [articelRes, tagRes] = await Promise.all([
       loadArticles({
+        author,
         limit,
         tag,
         offset: (page - 1) * limit,
